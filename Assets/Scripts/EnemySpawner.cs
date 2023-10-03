@@ -6,33 +6,57 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] _enemies;
     int[] _lastRand;
+    public bool _ifStart;
 
     // Update is called once per frame
     void Start()
     {
-        StartCoroutine(Delay(1f));
+        if(_ifStart)
+        {
+            StartCoroutine(Delay(1f));
+        }
     }
 
-    private IEnumerator Delay(float seconds)
+    public IEnumerator Delay(float seconds)
     {
-        _lastRand = new int[_enemies.Length];
-        for(int i = 0; i < _enemies.Length; i++)
+        if(_enemies.Length == 1)
         {
             yield return new WaitForSeconds(seconds);
-            int random = Random.Range(0, _enemies.Length);
-            if(i != 0)
+            _enemies[0].SetActive(true);
+        }
+        else
+        {
+            _lastRand = new int[_enemies.Length];
+            for(int k = 0; k < _enemies.Length; k++)
             {
-                for (int j = 1; j <= i; j++)
+                _lastRand[k] = 10000;
+            }
+            for(int i = 0; i < _enemies.Length / 2; i++)
+            {
+                yield return new WaitForSeconds(seconds);
+                int random = Random.Range(0, _enemies.Length);
+                if(i != 0)
                 {
-                    while (random == _lastRand[j - 1])
+                    while(CheckArray(random))
                     {
                         random = Random.Range(0, _enemies.Length);
                     }
                 }
+                _lastRand[i] = random;
+                _enemies[random].SetActive(true);
             }
-            _lastRand[i] = random;
-            Debug.Log($"Turning on {random}.");
-            _enemies[random].SetActive(true);
         }
+    }
+
+    private bool CheckArray(int number)
+    {
+        foreach (int element in _lastRand)
+        {
+            if (element == number)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

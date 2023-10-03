@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     bool _startFalling;
 
     public int _ammo;
+    private int _groundedCount = 0; // Track the number of grounded colliders
 
     public Animator _playerAni;
 
@@ -214,19 +215,26 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            _isGrounded = true;
-            _startFalling = false;
+            _groundedCount++;
+            UpdateGroundedState();
         }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            _isGrounded = false;
-            _startFalling = true;
+            _groundedCount--;
+            UpdateGroundedState();
         }
+    }
+
+    // Update grounded state based on the number of grounded colliders
+    private void UpdateGroundedState()
+    {
+        _isGrounded = _groundedCount > 0;
+        _startFalling = !_isGrounded;
     }
 }

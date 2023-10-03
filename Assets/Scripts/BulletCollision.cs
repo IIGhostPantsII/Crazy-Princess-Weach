@@ -10,6 +10,10 @@ public class BulletCollision : MonoBehaviour
         {
             return;
         }
+        else if(collision.CompareTag("Spawn"))
+        {
+            return;
+        }
         else if(collision.CompareTag("Boss"))
         {
             BossCharacter<int>.SubtractHealth(10);
