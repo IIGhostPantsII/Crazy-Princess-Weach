@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     //INPUT BOOLS
     private bool _isSprinting;
     private bool _isJumping;
-    private bool _isGrounded;
+    private bool _isGrounded = true;
     private bool _isShooting;
     private bool _isDashing;
     private bool _isReloading;
@@ -37,9 +37,11 @@ public class PlayerController : MonoBehaviour
     float _xRotation = 0f;
 
     bool _delay;
+    bool _dashDelay;
     public bool _shootDelay;
     public bool _reload;
     public bool _noAni;
+    bool _startFalling;
 
     public int _ammo;
 
@@ -66,13 +68,12 @@ public class PlayerController : MonoBehaviour
         _isDashing = _input.Player.Dash.ReadValue<float>() > 0.1f;
         _isReloading = _input.Player.Reload.ReadValue<float>() > 0.1f;
 
-        _isGrounded = Physics.SphereCast(transform.position, _groundCheckRadius, -Vector3.up, out RaycastHit hitInfo, 0.1f, _groundLayer);
-
         if(_isJumping && !_delay && _isGrounded)
         {
             StartCoroutine(InputDelay(0.15f));
             _delay = true;
             StartCoroutine(Jump());
+            _startFalling = false;
         }
 
         //This toggles the menu screen. To open press 'Esc'
@@ -139,16 +140,16 @@ public class PlayerController : MonoBehaviour
             movement *= _sprintMultiplier;
         }
 
-        if(_isDashing && !_delay && movement.magnitude > 0)
+        if(_isDashing && !_dashDelay && movement.magnitude > 0)
         {
-            StartCoroutine(InputDelay(3.0f));
-            _delay = true;
+            StartCoroutine(InputDelayDash(3.0f));
+            _dashDelay = true;
             StartCoroutine(Dash(movement));
         }
 
-        if(!_isGrounded)
+        if(!_isGrounded && _startFalling)
         {
-            movement.y -= 9.8f * Time.deltaTime;
+            _playerRigidbody.AddForce(Physics.gravity * 100.0f, ForceMode.Acceleration);
         }
 
         if(movement.magnitude > 0)
@@ -179,6 +180,12 @@ public class PlayerController : MonoBehaviour
         _delay = false;
     }
 
+    IEnumerator InputDelayDash(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        _dashDelay = false;
+    }
+
     public IEnumerator ShootDelay(float seconds)
     {
         yield return new WaitForSeconds(seconds);
@@ -196,10 +203,30 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Jump()
     {
-        for(int i = 5; i < _jumpForce; i++)
+        for(int i = 1; i < _jumpForce; i++)
         {
-            yield return new WaitForSeconds(0.005f);
+            yield return new WaitForSeconds(0.0005f * i);
             _playerRigidbody.AddForce(Vector3.up * i, ForceMode.Impulse);
+            _startFalling = false;
+        }
+        _startFalling = true;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            _isGrounded = true;
+            _startFalling = false;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            _isGrounded = false;
+            _startFalling = true;
         }
     }
 }

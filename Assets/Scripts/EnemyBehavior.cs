@@ -13,7 +13,6 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Start()
     {
-        // Initialize the nextShootTime with a random delay within the defined range.
         nextShootTime = Time.time + Random.Range(minShootDelay, maxShootDelay);
     }
 
@@ -22,7 +21,6 @@ public class EnemyBehavior : MonoBehaviour
         if (Time.time >= nextShootTime)
         {
             ShootAtPlayer();
-            // Reset the nextShootTime with a new random delay.
             nextShootTime = Time.time + Random.Range(minShootDelay, maxShootDelay);
         }
     }
@@ -36,7 +34,7 @@ public class EnemyBehavior : MonoBehaviour
             // Calculate the direction towards the player.
             Vector3 direction = (player.position - bullet.transform.position).normalized;
             // Set the bullet's velocity to move towards the player.
-            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed; // Adjust bulletSpeed as needed.
+            bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
         }
     }
 }
