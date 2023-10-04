@@ -44,6 +44,7 @@ public static class BossCharacter<SoTrue>
         if(_intVariable < 1)
         {
             _dead = true;
+            Globals.EnemyDead();
         }
     }
 }

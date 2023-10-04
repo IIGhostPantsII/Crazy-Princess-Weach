@@ -8,16 +8,16 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager _instance;
 
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-        if(_instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        _instance = this;
-    }
+    //void Awake()
+    //{
+    //    DontDestroyOnLoad(gameObject);
+    //    if(_instance != null)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
+    //    _instance = this;
+    //}
     
     public void PlayMusic(int musicIndex)
     {
@@ -26,10 +26,5 @@ public class SoundManager : MonoBehaviour
         _source.loop = true;
         _source.time = 0; // set the time of the audio source to the start time
         _source.Play();
-        LoopSong loopScript = _source.GetComponent<LoopSong>();
-        if (loopScript != null)
-        {
-            loopScript.LoadStartEndTime(_source.clip.name);
-        }
     }
 }

@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if(_ifStart)
         {
-            StartCoroutine(Delay(1f));
+            StartCoroutine(Delay(2f));
         }
     }
 

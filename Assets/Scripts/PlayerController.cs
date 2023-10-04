@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     //Settings you can change in the inspector
     [SerializeField] private float _speed = 800f;
-    [SerializeField] private float _sprintMultiplier = 1.5f;
     [SerializeField] private float _jumpForce = 15f;
     public float _mouseSensitivity = 5f;
     [SerializeField] private float _groundCheckRadius = 1.0f;
@@ -101,7 +100,7 @@ public class PlayerController : MonoBehaviour
         if(_isShooting && !_shootDelay && !_reload && !_noAni && !Globals.DeathScreen)
         {
             _ammo--;
-            StartCoroutine(ShootDelay(0.075f));
+            StartCoroutine(ShootDelay(Globals.FireRate));
             _shootDelay = true;
             _soundManager._source.PlayOneShot(_soundManager._clips[0]);
             _bulletShooter.ShootBullet();
@@ -138,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
         if(_isSprinting)
         {
-            movement *= _sprintMultiplier;
+            movement *= Globals.Speed;
         }
 
         if(_isDashing && !_dashDelay && movement.magnitude > 0)
