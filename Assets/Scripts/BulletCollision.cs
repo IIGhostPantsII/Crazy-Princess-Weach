@@ -45,7 +45,7 @@ public class BulletCollision : MonoBehaviour
                 Animator kapowAnimator = kapow.GetComponent<Animator>();
                 kapowAnimator.Play("Kapow");
                 _soundManager._source.PlayOneShot(_soundManager._clips[1]);
-
+                BossSetup.ResetEnemy();
                 Destroy(collision.gameObject);
             }
             Destroy(gameObject);

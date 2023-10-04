@@ -39,11 +39,11 @@ public static class Globals
 
     public static void AddFireRate()
     {
-        FireRate /= 1.5f;
+        FireRate /= 1.25f;
     }
 
     public static void AddSpeed()
     {
-        Speed *= 1.5f;
+        Speed *= 1.25f;
     }
 }
