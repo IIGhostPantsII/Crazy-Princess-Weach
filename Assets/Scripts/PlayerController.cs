@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //This toggles the menu screen. To open press 'Esc'
-        if (_input.UI.Open.triggered)
+        if (_input.UI.Open.triggered && !Globals.DeathScreen)
         {
             _menuBool = !_menuBool;
             _noAni = !_noAni;
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
             _ammo = 0;
         }
 
-        if(_isShooting && !_shootDelay && !_reload && !_noAni)
+        if(_isShooting && !_shootDelay && !_reload && !_noAni && !Globals.DeathScreen)
         {
             _ammo--;
             StartCoroutine(ShootDelay(0.075f));

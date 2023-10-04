@@ -8,6 +8,8 @@ TagManager:
   - Boss
   - Ground
   - Spawn
+  - Wowzer
+  - Warp
   layers:
   - Default
   - TransparentFX
