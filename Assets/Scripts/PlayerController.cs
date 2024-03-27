@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //Settings you can change in the inspector
     [SerializeField] private float _speed = 800f;
     [SerializeField] private float _jumpForce = 15f;
     public float _mouseSensitivity = 5f;
@@ -74,22 +73,6 @@ public class PlayerController : MonoBehaviour
             _delay = true;
             StartCoroutine(Jump());
             _startFalling = false;
-        }
-
-        //This toggles the menu screen. To open press 'Esc'
-        if (_input.UI.Open.triggered && !Globals.DeathScreen)
-        {
-            _menuBool = !_menuBool;
-            _noAni = !_noAni;
-            _menu.SetActive(_menuBool);
-            Time.timeScale = _menuBool ? 0 : 1;
-            Cursor.visible = _menuBool;
-            Cursor.lockState = _menuBool ? CursorLockMode.None : CursorLockMode.Locked;
-            //If options is still open
-            _menuScript._buttons[0].SetActive(true);
-            _menuScript._buttons[1].SetActive(true);
-            _menuScript._buttons[2].SetActive(true);
-            _menuScript._options.SetActive(false);
         }
 
         if(_isReloading)
@@ -230,7 +213,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Update grounded state based on the number of grounded colliders
     private void UpdateGroundedState()
     {
         _isGrounded = _groundedCount > 0;

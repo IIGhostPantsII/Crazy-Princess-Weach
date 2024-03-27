@@ -27,13 +27,10 @@ public class EnemyBehavior : MonoBehaviour
 
     private void ShootAtPlayer()
     {
-        // Check if the player is in range and has the "Player" tag.
-        if (player != null && player.CompareTag("Player"))
+        if(player != null && player.CompareTag("Player"))
         {
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-            // Calculate the direction towards the player.
             Vector3 direction = (player.position - bullet.transform.position).normalized;
-            // Set the bullet's velocity to move towards the player.
             bullet.GetComponent<Rigidbody>().velocity = direction * bulletSpeed;
         }
     }

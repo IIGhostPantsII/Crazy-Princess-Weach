@@ -6,6 +6,7 @@ public class SpawnCollider : MonoBehaviour
 {
     public EnemySpawner _enemySpawner;
     public SoundManager _soundManager;
+    public Animator _bossAnimator;
 
     void OnTriggerEnter(Collider collision)
     {
@@ -16,6 +17,10 @@ public class SpawnCollider : MonoBehaviour
             {
                 _soundManager._source.Stop();
                 _soundManager.PlayMusic(Globals.CurrentLevel + 8);
+            }
+            if(_bossAnimator != null)
+            {
+                _bossAnimator.Play("FinalBoss");
             }
             Destroy(gameObject);
         }

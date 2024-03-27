@@ -7,6 +7,8 @@ public class BossSetup : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private int _damage;
 
+    [SerializeField] public GameObject _particle;
+
     public static int Health;
 
     void Start()

@@ -9,7 +9,7 @@ public static class Globals
     public static bool EnemyDeath;
 
     //Stats
-    public static float FireRate = 0.5f;
+    public static float FireRate = 0.25f;
     public static float Speed = 1.5f;
 
     public static void Death()
@@ -44,6 +44,6 @@ public static class Globals
 
     public static void AddSpeed()
     {
-        Speed *= 1.25f;
+        Speed *= 1.1f;
     }
 }

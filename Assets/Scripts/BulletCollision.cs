@@ -37,9 +37,15 @@ public class BulletCollision : MonoBehaviour
         }
         else if(collision.CompareTag("Wowzer"))
         {
+            int random;
             BossCharacter<int>.SubtractHealth(10);
             if(Globals.EnemyDeath)
             {
+                random = Random.Range(0, 4);
+                if(random == 3)
+                {
+                    GantSwap.ItsBeenDone();
+                }
                 _portal[Globals.CurrentLevel].SetActive(true);
                 GameObject kapow = collision.gameObject.transform.parent.gameObject;
                 Animator kapowAnimator = kapow.GetComponent<Animator>();
